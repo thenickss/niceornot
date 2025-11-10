@@ -1,4 +1,23 @@
 /* THIS WHOLE CODE IS WRITTEN BY THENICKS */
+// === FIREBASE SETUP ===
+const firebaseConfig = {
+  apiKey: "AIzaSyC3x0XyfOqtdlhlaHLkS3PGBrt7-tAcH3g",
+  authDomain: "hahaha121345.firebaseapp.com",
+  projectId: "hahaha121345",
+  storageBucket: "hahaha121345.firebasestorage.app",
+  messagingSenderId: "794382219849",
+  appId: "1:794382219849:web:5701a4ddf5cdaef8629d98",
+  measurementId: "G-76PM1P96XT"
+};
+
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
+}
+const db = firebase.firestore();
+
+
 const STORAGE_KEY = "niceornot_v3_state";
 const OWNER_PASSWORD = "thenicks11235"; // secret unlock & reset password
 
@@ -53,28 +72,53 @@ function showNext() {
   img.src = c.img;
   nameEl.textContent = c.name;
 }
+// === Celebrity list ===
+async function rate(isNice) {
+  const celeb = celebs[index];
+  const name = celeb.name;
 
-function rate(isNice) {
-  const name = celebs[index].name;
+  // Save locally
   if (!stats[name]) stats[name] = { nice: 0, not: 0 };
   if (isNice) stats[name].nice++;
   else stats[name].not++;
   localStorage.setItem(STORAGE_KEY, JSON.stringify(stats));
+
+  // Save to Firestore (shared votes)
+  try {
+    const ref = db.collection("votes").doc(name);
+    await db.runTransaction(async (t) => {
+      const doc = await t.get(ref);
+      const data = doc.exists ? doc.data() : { nice: 0, not: 0 };
+      if (isNice) data.nice++;
+      else data.not++;
+      t.set(ref, data);
+    });
+  } catch (err) {
+    console.error("❌ Firestore save error:", err);
+  }
+
   index = (index + 1) % celebs.length;
   showNext();
 }
 
-function renderResults() {
-  resultList.innerHTML = "";
-  const arr = Object.keys(stats).map(name => {
-    const { nice, not } = stats[name];
+
+async function renderResults() {
+  resultList.innerHTML = "<p>Loading...</p>";
+
+  const snapshot = await db.collection("votes").get();
+  const arr = [];
+
+  snapshot.forEach(doc => {
+    const { nice, not } = doc.data();
     const total = nice + not;
     const percent = total ? Math.round((nice / total) * 100) : 0;
-    const celeb = celebs.find(c => c.name === name);
-    return { name, percent, nice, not, img: celeb ? celeb.img : "" };
+    const celeb = celebs.find(c => c.name === doc.id);
+    arr.push({ name: doc.id, percent, nice, not, img: celeb ? celeb.img : "" });
   });
 
   arr.sort((a, b) => b.percent - a.percent);
+  resultList.innerHTML = "";
+
   arr.forEach((c, i) => {
     const div = document.createElement("div");
     div.className = "result-item";
@@ -83,10 +127,12 @@ function renderResults() {
       <div class="meta">
         <strong>${i + 1}. ${c.name}</strong>
         <small>${c.percent}% Nice (${c.nice} 👍, ${c.not} ❌)</small>
-      </div>`;
+      </div>
+    `;
     resultList.appendChild(div);
   });
 }
+
 
 // 🔒 Reset All Votes (protected)
 function resetAll() {
