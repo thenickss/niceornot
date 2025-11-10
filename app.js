@@ -127,5 +127,52 @@ backBtn.addEventListener("click", () => {
   resultsSection.style.display = "none";
   rateSection.style.display = "block";
 });
+// === SWIPE GESTURES ===
+let touchStartX = 0;
+let touchEndX = 0;
+
+const card = document.getElementById("card");
+
+card.addEventListener("touchstart", e => {
+  touchStartX = e.changedTouches[0].screenX;
+});
+
+card.addEventListener("touchend", e => {
+  touchEndX = e.changedTouches[0].screenX;
+  handleSwipe();
+});
+
+function handleSwipe() {
+  const diff = touchEndX - touchStartX;
+  if (Math.abs(diff) < 50) return; // ignore small swipes
+
+  if (diff > 50) {
+    // swipe right = Nice
+    rate(true);
+    flashFeedback("👍 NICE!", "#10b981");
+  } else if (diff < -50) {
+    // swipe left = Not
+    rate(false);
+    flashFeedback("❌ NOT", "#ef4444");
+  }
+}
+
+function flashFeedback(text, color) {
+  const flash = document.createElement("div");
+  flash.textContent = text;
+  flash.style.position = "fixed";
+  flash.style.top = "40%";
+  flash.style.left = "50%";
+  flash.style.transform = "translate(-50%, -50%)";
+  flash.style.fontSize = "40px";
+  flash.style.fontWeight = "800";
+  flash.style.color = color;
+  flash.style.opacity = "0.9";
+  flash.style.transition = "opacity 0.6s ease";
+  flash.style.zIndex = "2000";
+  document.body.appendChild(flash);
+  setTimeout(() => (flash.style.opacity = "0"), 400);
+  setTimeout(() => flash.remove(), 1000);
+}
 resetBtn.addEventListener("click", resetAll);
 document.addEventListener("DOMContentLoaded", showNext);
