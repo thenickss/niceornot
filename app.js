@@ -41,8 +41,6 @@ let celebs = [
   { name: "Deveney", img: "https://images.squarespace-cdn.com/content/v1/65bc10e4039a0d6571e24690/04d7ff0a-90c5-4802-b89b-25712a64c84f/21k098-is-98-the-bay-academy-for-the-arts-and-sciences-1135.jpg" },
   { name: "Devivio", img: "https://images.squarespace-cdn.com/content/v1/65bc10e4039a0d6571e24690/04d7ff0a-90c5-4802-b89b-25712a64c84f/21k098-is-98-the-bay-academy-for-the-arts-and-sciences-1135.jpg" },
   { name: "Durrani", img: "https://images.squarespace-cdn.com/content/v1/65bc10e4039a0d6571e24690/f5e6f7a2-e68e-4f25-90fd-57c1d2be50e7/21k098-is-98-the-bay-academy-for-the-arts-and-sciences-1187.jpg" },
-  { name: "Failla", img: "https://images.squarespace-cdn.com/content/v1/65bc10e4039a0d6571e24690/36eb9c9b-f01f-42aa-ac00-e439ea9267e3/4+%281%29.png" },
-  { name: "Funk", img: "https://images.squarespace-cdn.com/content/v1/65bc10e4039a0d6571e24690/a88340b1-cf0e-4351-a5f7-228e518546ab/21k098-is-98-the-bay-academy-for-the-arts-and-sciences-1137.jpg" },
   { name: "Giambra", img: "https://images.squarespace-cdn.com/content/v1/65bc10e4039a0d6571e24690/0b58ca18-5e8d-440a-bc97-1c7a3b31e982/21k098-is-98-the-bay-academy-for-the-arts-and-sciences-1224.jpg" },
   {"name": "Alphonso Gaita", "img": "https://images.squarespace-cdn.com/content/v1/65bc10e4039a0d6571e24690/69a0ee16-928f-4bf6-9ce6-291383ef2565/21k098-is-98-the-bay-academy-for-the-arts-and-sciences-1118.jpg"},
   {
@@ -93,6 +91,7 @@ let celebs = [
     "name": "Mandi Bracho",
     "img": "https://images.squarespace-cdn.com/content/v1/65bc10e4039a0d6571e24690/ce76b8d9-1fdf-45de-a2f6-8c529cfdbd6f/21k098-is-98-the-bay-academy-for-the-arts-and-sciences-1186.jpg"
   },
+
   {
     "name": "Christopher Caputo",
     "img": "https://images.squarespace-cdn.com/content/v1/65bc10e4039a0d6571e24690/70b90b92-fa11-4348-9c43-f661befdef9c/21k098-is-98-the-bay-academy-for-the-arts-and-sciences-1132.jpg"
