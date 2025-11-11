@@ -241,7 +241,23 @@ h2#name {
   body {
     padding-bottom: 80px; /* prevent footer overlap */
   }
+.swipe-hint {
+  font-size: 15px;
+  color: #9ca3af;
+  margin-top: 8px;
+  display: none; /* hidden by default */
+}
 
+/* Show only on phones */
+@media (max-width: 600px) {
+  .swipe-hint {
+    display: block;
+    font-size: 14px;
+    color: #9ca3af;
+    text-align: center;
+    margin-bottom: 5px;
+  }
+}
   .brand h1 {
     font-size: 20px;
     text-align: center;
