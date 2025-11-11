@@ -14,7 +14,7 @@
   <meta name="theme-color" content="#111827">
 </head>
 <style>
-  /* === GLOBAL VARIABLES === */
+/* === GLOBAL VARIABLES === */
 :root {
   --bg: #0b0f1a;
   --card: #111827;
@@ -63,6 +63,7 @@ html, body {
 .brand h1 {
   font-size: 24px;
   font-weight: 800;
+  text-align: center;
 }
 
 .owner {
@@ -99,6 +100,22 @@ h2#name {
   font-size: 22px;
 }
 
+/* === SWIPE HINT (Mobile Only) === */
+.swipe-hint {
+  display: none;
+}
+
+@media (max-width:600px) {
+  .swipe-hint {
+    display: block;
+    font-size: 14px;
+    color: #9ca3af;
+    text-align: center;
+    margin-top: 6px;
+    margin-bottom: 8px;
+  }
+}
+
 /* === BUTTONS === */
 .btns {
   display: flex;
@@ -117,7 +134,7 @@ h2#name {
   font-size: 17px;
   cursor: pointer;
   color: white;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.25s ease;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
 }
 
@@ -128,6 +145,7 @@ h2#name {
 .nice {
   background: linear-gradient(180deg, var(--success), #059669);
 }
+
 .not {
   background: linear-gradient(180deg, var(--danger), #b91c1c);
 }
@@ -143,6 +161,7 @@ h2#name {
   padding: 12px 0;
   font-weight: 600;
   box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.3);
+  text-align: center;
 }
 
 /* === RESULTS PAGE === */
@@ -157,20 +176,7 @@ h2#name {
 #resultsSection h2 {
   font-size: 26px;
   font-weight: 800;
-}
-
-#backBtn {
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  background: transparent;
-  color: white;
-  border-radius: 10px;
-  padding: 8px 14px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background 0.2s ease;
-}
-#backBtn:hover {
-  background: rgba(255, 255, 255, 0.1);
+  margin-bottom: 5px;
 }
 
 .result-list {
@@ -192,9 +198,11 @@ h2#name {
   padding: 10px 14px;
   transition: background 0.2s ease;
 }
+
 .result-item:hover {
   background: rgba(255, 255, 255, 0.08);
 }
+
 .result-item img {
   width: 60px;
   height: 60px;
@@ -206,15 +214,24 @@ h2#name {
   color: #9ca3af;
   font-size: 14px;
 }
+
+/* === RESULTS BUTTONS === */
 .ghost.small {
-    margin-top: 12px;
-    background: transparent;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    color: white;
-    border-radius: 10px;
-    padding: 8px 12px;
-    cursor: pointer;
+  margin-top: 12px;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  border-radius: 10px;
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
 }
+
+.ghost.small:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: scale(1.03);
+}
+
 #resetBtn {
   border: 2px solid var(--danger);
   color: var(--danger);
@@ -225,6 +242,7 @@ h2#name {
   cursor: pointer;
   transition: 0.25s ease;
 }
+
 #resetBtn:hover {
   background: var(--danger);
   color: white;
@@ -252,31 +270,14 @@ h2#name {
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* === MOBILE === */
+/* === MOBILE ADJUSTMENTS === */
 @media (max-width: 600px) {
   body {
-    padding-bottom: 80px; /* prevent footer overlap */
+    padding-bottom: 80px; /* Prevent footer overlap */
   }
-.swipe-hint {
-  font-size: 15px;
-  color: #9ca3af;
-  margin-top: 8px;
-  display: none; /* hidden by default */
-}
 
-/* Show only on phones */
-@media (max-width: 600px) {
-  .swipe-hint {
-    display: block;
-    font-size: 14px;
-    color: #9ca3af;
-    text-align: center;
-    margin-bottom: 5px;
-  }
-}
   .brand h1 {
     font-size: 20px;
-    text-align: center;
   }
 
   .card {
@@ -286,7 +287,7 @@ h2#name {
   }
 
   .pick {
-    font-size: 15px;
+    font-size: 15px;  
     padding: 12px 0;
   }
 
@@ -309,7 +310,35 @@ h2#name {
     font-size: 22px;
   }
 }
+/* Extra small screen tweaks */
+@media (max-width:400px) {
+  .btns {
+    flex-direction: column;
+  }
 
+  .pick {
+    width: 100%;
+  }
+}
+.search-bar {
+  width: 80%;
+  max-width: 400px;
+  padding: 10px 14px;
+  margin: 10px auto 20px;
+  display: block;
+  border: 2px solid var(--accent);
+  border-radius: 8px;
+  background-color: var(--card);
+  color: var(--text);
+  font-size: 1rem;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.search-bar:focus {
+  border-color: var(--success);
+  box-shadow: 0 0 6px var(--success);
+}
 </style>
 <body>
   <header class="site-header glass">
@@ -321,23 +350,27 @@ h2#name {
   </header>
 
 <main>
-  <!-- ratings of all ppl -->
-  <section id="rateSection">
-    <article id="card" class="card">
-      <div class="image-wrap shimmer">
-        <img id="img" alt="Teachesss" />
-      </div>
-      <h2 id="name">—</h2>
-      <p class="swipe-hint">👉 Swipe right for <b>Nice</b> — 👈 Swipe left for <b>Not</b></p>
-      <div class="btns">
-        <button class="pick nice" id="btnNice">👍 Nice</button>
-        <button class="pick not" id="btnNot">❌ Not</button>
-      </div>
-    </article>
-    <button id="showResultsBtn" class="ghost small">📊 View Results - we are still updating this feature
-    </button>
-  </section>
+   <!-- search bar tyee -->
+      <section id="rateSection">
+        <input id="searchInput" class="search-bar" placeholder="Search by name..." />
 
+        <div class="card" id="ratingCard">
+          <div class="image-wrap">
+            <img id="img" src="" alt="No person Found" />
+          </div>
+
+          <h2 id="name">—</h2>
+          <p class="swipe-hint">👉 Swipe right for <b>Nice</b> — 👈 Swipe left for <b>Not</b> (or use buttons)</p>
+
+          <div class="btns">
+            <button class="pick nice" id="btnNice">👍 Nice</button>
+            <button class="pick not" id="btnNot">❌ Not</button>
+          </div>
+
+        </div>
+      </section>
+  <h3 style="font-size: small; text-align: center;">sorry. we had to take away the results😔</h3>
+  <h4 style="text-align: center; font-size: x-small;">The Nicks</h4>
   <!-- ratigns butn and reset -->
 <section id="resultsSection" style="display:none;">
   <h2>Nice Rankings 💫</h2>
@@ -359,14 +392,14 @@ h2#name {
     🔓 Owner Mode ON
   </div>
 </main>
-<!-- Firebase v8 (Compatible with your current app.js syntax) -->
+<!-- Firebase v8 for scipts -->
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 
 <script>
   /* THIS WHOLE CODE IS WRITTEN BY THENICKS */
-// === FIREBASE SETUP ===
+// === FIREBASE onfg setup ===
 const firebaseConfig = {
   apiKey: "AIzaSyC3x0XyfOqtdlhlaHLkS3PGBrt7-tAcH3g",
   authDomain: "hahaha121345.firebaseapp.com",
@@ -377,8 +410,7 @@ const firebaseConfig = {
   measurementId: "G-76PM1P96XT"
 };
 
-// Initialize Firebase
-firebase.initializeApp(firebaseConfig);
+// start firebase
 if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
 }
@@ -386,30 +418,42 @@ const db = firebase.firestore();
 
 
 const STORAGE_KEY = "niceornot_v3_state";
-const OWNER_PASSWORD = "thenicks11235"; // secret unlock & reset password
+const OWNER_PASSWORD = "thenicks11235"; // who made the site
 
 // === teahcherss list ===
 let celebs = [
-  { name: "Dalton", img: "https://images.squarespace-cdn.com/content/v1/65bc10e4039a0d6571e24690/e7b70a3a-6cad-425a-b128-a6e5a33f2bc9/21k098-is-98-the-bay-academy-for-the-arts-and-sciences-1259.jpg" },
-  { name: "D'Agosta", img: "https://images.squarespace-cdn.com/content/v1/65bc10e4039a0d6571e24690/5881288c-4612-4a96-9e40-1c9478fd27a0/image0+%281%29.jpeg" },
-  { name: "O'Neill", img: "https://images.squarespace-cdn.com/content/v1/65bc10e4039a0d6571e24690/56a33894-8bd7-4511-acb6-1738570d4347/Mr.+Oneil.png" },
-  { name: "Vero-Kipp", img: "https://images.squarespace-cdn.com/content/v1/65bc10e4039a0d6571e24690/f5c78bb1-a551-4d33-a2b4-510f5aed1f1c/21k098-is-98-the-bay-academy-for-the-arts-and-sciences-1147.jpg" },
-  { name: "Goldberg", img: "https://images.squarespace-cdn.com/content/v1/65bc10e4039a0d6571e24690/31bddf45-86d8-4b9e-afcc-fc3445b9ac69/Mr.+Goldberg.png" },
-  { name: "Hunt", img: "https://images.squarespace-cdn.com/content/v1/65bc10e4039a0d6571e24690/0fdc29e3-5963-4867-8d00-e59cdc171102/21k098-is-98-the-bay-academy-for-the-arts-and-sciences-1276.jpg" },
-  { name: "Carlino", img: "https://images.squarespace-cdn.com/content/v1/65bc10e4039a0d6571e24690/b829f0b6-e391-4756-95d5-b78f5b92d0bb/21k098-is-98-the-bay-academy-for-the-arts-and-sciences-1261.jpg" },
-  { name: "Abrenica", img: "https://images.squarespace-cdn.com/content/v1/65bc10e4039a0d6571e24690/c7763fa7-432c-43cd-98c1-1f5a98d2b98a/Mr.+Abrenica.jpg" },
-  { name: "Afonso", img: "https://images.squarespace-cdn.com/content/v1/65bc10e4039a0d6571e24690/cb218f42-4c60-4726-ad5c-dafceb1bb753/21k098-is-98-the-bay-academy-for-the-arts-and-sciences-1151.jpg" },
-  { name: "Agola", img: "https://images.squarespace-cdn.com/content/v1/65bc10e4039a0d6571e24690/ddbc4629-3c8c-4030-80b1-e04238a74d2e/21k098-is-98-the-bay-academy-for-the-arts-and-sciences-1278.jpg" },
-  { name: "Airo", img: "https://images.squarespace-cdn.com/content/v1/65bc10e4039a0d6571e24690/d54d0682-546e-4bd4-a31d-1f89cf4c2e79/9.png" },
-  { name: "Melendez", img: "https://images.squarespace-cdn.com/content/v1/65bc10e4039a0d6571e24690/1acd8e0f-cc11-489f-8e39-fbf8cf559abc/Ms.+Alkabbani.png" },
-  { name: "Bommarito", img: "https://images.squarespace-cdn.com/content/v1/65bc10e4039a0d6571e24690/290d2669-22b9-4c66-bbd2-424e9394b4e2/21k098-is-98-the-bay-academy-for-the-arts-and-sciences-1279.jpg" },
-  { name: "Comas", img: "https://images.squarespace-cdn.com/content/v1/65bc10e4039a0d6571e24690/e19d2abc-966a-4332-9339-90eb1e721282/Ms.+Comas.jpg" },
-  { name: "Curen", img: "https://images.squarespace-cdn.com/content/v1/65bc10e4039a0d6571e24690/4a9ecf72-0112-4297-ac5e-e6e6dd26c367/21k098-is-98-the-bay-academy-for-the-arts-and-sciences-1190.jpg" },
-  { name: "Deveney", img: "https://images.squarespace-cdn.com/content/v1/65bc10e4039a0d6571e24690/04d7ff0a-90c5-4802-b89b-25712a64c84f/21k098-is-98-the-bay-academy-for-the-arts-and-sciences-1135.jpg" },
-  { name: "Devivio", img: "https://images.squarespace-cdn.com/content/v1/65bc10e4039a0d6571e24690/04d7ff0a-90c5-4802-b89b-25712a64c84f/21k098-is-98-the-bay-academy-for-the-arts-and-sciences-1135.jpg" },
-  { name: "Durrani", img: "https://images.squarespace-cdn.com/content/v1/65bc10e4039a0d6571e24690/f5e6f7a2-e68e-4f25-90fd-57c1d2be50e7/21k098-is-98-the-bay-academy-for-the-arts-and-sciences-1187.jpg" },
-  { name: "Giambra", img: "https://images.squarespace-cdn.com/content/v1/65bc10e4039a0d6571e24690/0b58ca18-5e8d-440a-bc97-1c7a3b31e982/21k098-is-98-the-bay-academy-for-the-arts-and-sciences-1224.jpg" },
-  {"name": "Alphonso Gaita", "img": "https://images.squarespace-cdn.com/content/v1/65bc10e4039a0d6571e24690/69a0ee16-928f-4bf6-9ce6-291383ef2565/21k098-is-98-the-bay-academy-for-the-arts-and-sciences-1118.jpg"},
+  { 
+    name: "Dalton", 
+    img: "https://images.squarespace-cdn.com/content/v1/65bc10e4039a0d6571e24690/e7b70a3a-6cad-425a-b128-a6e5a33f2bc9/21k098-is-98-the-bay-academy-for-the-arts-and-sciences-1259.jpg" 
+  },
+  {
+     name: "D'Agosta", 
+     img: "https://images.squarespace-cdn.com/content/v1/65bc10e4039a0d6571e24690/5881288c-4612-4a96-9e40-1c9478fd27a0/image0+%281%29.jpeg" 
+    },
+  {
+     name: "O'Neill",
+      img: "https://images.squarespace-cdn.com/content/v1/65bc10e4039a0d6571e24690/56a33894-8bd7-4511-acb6-1738570d4347/Mr.+Oneil.png" 
+    },
+  { 
+    name: "Vero-Kipp",
+     img: "https://images.squarespace-cdn.com/content/v1/65bc10e4039a0d6571e24690/f5c78bb1-a551-4d33-a2b4-510f5aed1f1c/21k098-is-98-the-bay-academy-for-the-arts-and-sciences-1147.jpg" 
+    },
+  { 
+    name: "Goldberg", 
+    img: "https://images.squarespace-cdn.com/content/v1/65bc10e4039a0d6571e24690/31bddf45-86d8-4b9e-afcc-fc3445b9ac69/Mr.+Goldberg.png" 
+  },
+  { 
+    name: "Hunt", 
+    img: "https://images.squarespace-cdn.com/content/v1/65bc10e4039a0d6571e24690/0fdc29e3-5963-4867-8d00-e59cdc171102/21k098-is-98-the-bay-academy-for-the-arts-and-sciences-1276.jpg" 
+  },
+  { 
+    name: "Curen", 
+    img: "https://images.squarespace-cdn.com/content/v1/65bc10e4039a0d6571e24690/4a9ecf72-0112-4297-ac5e-e6e6dd26c367/21k098-is-98-the-bay-academy-for-the-arts-and-sciences-1190.jpg" 
+  },
+  {
+    "name": "Alphonso Gaita", 
+    "img": "https://images.squarespace-cdn.com/content/v1/65bc10e4039a0d6571e24690/69a0ee16-928f-4bf6-9ce6-291383ef2565/21k098-is-98-the-bay-academy-for-the-arts-and-sciences-1118.jpg"
+  },
   {
     "name": "Pietro Agola",
     "img": "https://images.squarespace-cdn.com/content/v1/65bc10e4039a0d6571e24690/e07a7e16-c8a1-4f23-9bc1-3962629eb4a8/Mr.+Agola.jpg"
@@ -781,7 +825,6 @@ let celebs = [
   }
 ];
 
-// Shuffle order
 celebs = celebs.sort(() => Math.random() - 0.5);
 
 let index = 0;
@@ -792,185 +835,64 @@ const img = document.getElementById("img");
 const nameEl = document.getElementById("name");
 const btnNice = document.getElementById("btnNice");
 const btnNot = document.getElementById("btnNot");
-const resultsSection = document.getElementById("resultsSection");
-const rateSection = document.getElementById("rateSection");
-const resultList = document.getElementById("resultList");
-const showResultsBtn = document.getElementById("showResultsBtn");
-const backBtn = document.getElementById("backBtn");
-const resetBtn = document.getElementById("resetBtn");
-const ownerBadge = document.getElementById("ownerBadge");
+const searchInput = document.getElementById("searchInput");
 
-resetBtn.style.display = "none"; // hidden until unlocked
+// Start with all tteaches
+let filteredCelebs = [...celebs];
 
-function showNext() {
-  const c = celebs[index];
-  img.src = c.img;
-  nameEl.textContent = c.name;
+// === SHOW teach ===
+function showPerson() {
+  const current = filteredCelebs[index];
+  if (!current) {
+    img.src = "";
+    nameEl.textContent = "No match found 😅";
+    return;
+  }
+  img.src = current.img;
+  nameEl.textContent = current.name;
 }
-// === Celebrity list ===
-async function rate(isNice) {
-  const celeb = celebs[index];
+
+// === INITIAL LOAD ===
+showPerson();
+
+// === RATING FUNCTION ===
+function rate(isNice) {
+  const celeb = filteredCelebs[index];
   const name = celeb.name;
 
-  // Save locally
   if (!stats[name]) stats[name] = { nice: 0, not: 0 };
   if (isNice) stats[name].nice++;
   else stats[name].not++;
+
   localStorage.setItem(STORAGE_KEY, JSON.stringify(stats));
 
-  // Save to Firestore (shared votes)
-  try {
-    const ref = db.collection("votes").doc(name);
-    await db.runTransaction(async (t) => {
-      const doc = await t.get(ref);
-      const data = doc.exists ? doc.data() : { nice: 0, not: 0 };
-      if (isNice) data.nice++;
-      else data.not++;
-      t.set(ref, data);
-    });
-  } catch (err) {
-    console.error("❌ Firestore save error:", err);
-  }
-
-  index = (index + 1) % celebs.length;
-  showNext();
+  index = (index + 1) % filteredCelebs.length;
+  showPerson();
 }
-
-
-async function renderResults() {
-  resultList.innerHTML = "<p>Loading...</p>";
-
-  const snapshot = await db.collection("votes").get();
-  const arr = [];
-
-  snapshot.forEach(doc => {
-    const { nice, not } = doc.data();
-    const total = nice + not;
-    const percent = total ? Math.round((nice / total) * 100) : 0;
-    const celeb = celebs.find(c => c.name === doc.id);
-    arr.push({ name: doc.id, percent, nice, not, img: celeb ? celeb.img : "" });
-  });
-
-  arr.sort((a, b) => b.percent - a.percent);
-  resultList.innerHTML = "";
-
-  arr.forEach((c, i) => {
-    const div = document.createElement("div");
-    div.className = "result-item";
-    div.innerHTML = `
-      <img src="${c.img}" alt="">
-      <div class="meta">
-        <strong>${i + 1}. ${c.name}</strong>
-        <small>${c.percent}% Nice (${c.nice} 👍, ${c.not} ❌)</small>
-      </div>
-    `;
-    resultList.appendChild(div);
-  });
-}
-
-
-// 🔒 Reset All Votes (protected)
-async function resetAll() {
-  const pass = prompt("Enter owner password to reset all votes:");
-  if (pass === OWNER_PASSWORD) {
-    if (confirm("Are you sure you want to reset everything?")) {
-      try {
-        // Clear local stats
-        localStorage.removeItem(STORAGE_KEY);
-        stats = {};
-
-        // Delete all Firestore votes
-        const snapshot = await db.collection("votes").get();
-        const batch = db.batch();
-        snapshot.forEach(doc => batch.delete(doc.ref));
-        await batch.commit();
-
-        celebs = celebs.sort(() => Math.random() - 0.5);
-        alert("✅ All votes have been fully reset (local + Firestore)!");
-        renderResults();
-      } catch (err) {
-        console.error("❌ Firestore reset error:", err);
-        alert("⚠️ Error resetting Firestore votes. Check console for details.");
-      }
-    }
-  } else if (pass) {
-    alert("❌ Incorrect password. Only Nick can reset.");
-  }
-}
-
-
-// 🧠 Secret unlock listener
-window.addEventListener("keydown", e => {
-  secretBuffer += e.key.toLowerCase();
-  if (secretBuffer.includes(OWNER_PASSWORD.toLowerCase())) {
-    alert("🔓 Owner mode activated g  ood boyyy!");
-    resetBtn.style.display = "inline-block";
-    ownerBadge.style.display = "block";
-    secretBuffer = "";
-  }
-  if (secretBuffer.length > 20) secretBuffer = secretBuffer.slice(-20);
-});
 
 btnNice.addEventListener("click", () => rate(true));
 btnNot.addEventListener("click", () => rate(false));
-showResultsBtn.addEventListener("click", () => {
-  renderResults();
-  rateSection.style.display = "none";
-  resultsSection.style.display = "block";
-});
-backBtn.addEventListener("click", () => {
-  resultsSection.style.display = "none";
-  rateSection.style.display = "block";
-});
-// === SWIPE GESTURES ===
-let touchStartX = 0;
-let touchEndX = 0;
 
-const card = document.getElementById("card");
+// === SEARCH HANDLER ===
+searchInput.addEventListener("input", () => {
+  const query = searchInput.value.toLowerCase();
 
-card.addEventListener("touchstart", e => {
-  touchStartX = e.changedTouches[0].screenX;
-});
-
-card.addEventListener("touchend", e => {
-  touchEndX = e.changedTouches[0].screenX;
-  handleSwipe();
-});
-
-function handleSwipe() {
-  const diff = touchEndX - touchStartX;
-  if (Math.abs(diff) < 50) return; // ignore small swipes
-
-  if (diff > 50) {
-    // swipe right = Nice
-    rate(true);
-    flashFeedback("👍 NICE!", "#10b981");
-  } else if (diff < -50) {
-    // swipe left = Not
-    rate(false);
-    flashFeedback("❌ NOT", "#ef4444");
+  if (query.trim() === "") {
+    // Reset
+    filteredCelebs = [...celebs];
+    btnNice.style.display = "inline-block";
+    btnNot.style.display = "inline-block";
+  } else {
+    // Filter by name
+    filteredCelebs = celebs.filter(c => c.name.toLowerCase().includes(query));
+    // Hide buttons while searching
+    btnNice.style.display = "none";
+    btnNot.style.display = "none";
   }
-}
 
-function flashFeedback(text, color) {
-  const flash = document.createElement("div");
-  flash.textContent = text;
-  flash.style.position = "fixed";
-  flash.style.top = "40%";
-  flash.style.left = "50%";
-  flash.style.transform = "translate(-50%, -50%)";
-  flash.style.fontSize = "40px";
-  flash.style.fontWeight = "800";
-  flash.style.color = color;
-  flash.style.opacity = "0.9";
-  flash.style.transition = "opacity 0.6s ease";
-  flash.style.zIndex = "2000";
-  document.body.appendChild(flash);
-  setTimeout(() => (flash.style.opacity = "0"), 400);
-  setTimeout(() => flash.remove(), 1000);
-}
-resetBtn.addEventListener("click", resetAll);
-document.addEventListener("DOMContentLoaded", showNext);
+  index = 0;
+  showPerson();
+});
 </script>
 <!--this scripty endss hereeayyyy-->
 </body>
